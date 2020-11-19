@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="#" th:action="@{/list/free/car}" th:object="${foglalasDto}" method="post">
+    <p>Kezdő dátum</p><input type="date" th:field="*{kezdoDatum}" name="daterange" required /><br>
+    <p>Záró dátum</p><input type="date" th:field="*{zaroDatum}" name="zaro" required /><br>
+    <input type="submit" value="Listázás">
+</form>
+
+</body>
+</html>

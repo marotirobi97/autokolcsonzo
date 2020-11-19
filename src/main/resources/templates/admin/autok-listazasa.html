@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Autok listázása</title>
+</head>
+<body>
+<button onclick="window.location.href='/admin/adminPage'">Vissza</button><br>
+
+<table>
+    <h3>Autók</h3>
+    <thead>
+    <tr>
+        <th> ID </th>
+        <th> Márka </th>
+        <th> Napi ár </th>
+        <th> Aktivált-e </th>
+        <th> Szabad-e </th>
+        <th> Éves </th>
+    </tr>
+    </thead>
+    <tbody>
+    </tr>
+    <tr th:each="auto : ${autoLista}">
+        <td><span th:text="${auto.id}" name="name">ID</span></td>
+        <td><span th:text="${auto.marka}" name="name">Márka</span></td>
+        <td><span th:text="${auto.napiAr}"> Napi ár  </span></td>
+        <td><span th:text="${auto.aktivalt_e}">Aktivált-e </span></td>
+        <td><span th:text="${auto.allapot}">Szabad-e </span></td>
+        <td><span th:text="${auto.hanyEves}">Éves</span></td>
+        <td><a th:href="@{/admin/edit/car/{carId}(carId=${auto.id})}">Szerkesztés</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Foglalas</title>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th> ID </th>
+        <th> Márka </th>
+        <th> Napi ár </th>
+        <th> Éves </th>
+        <th> Foglalando Napok Száma </th>
+    </tr>
+    </thead>
+    <tbody>
+    </tr>
+    <tr th:each="auto : ${auto}">
+        <td><span th:text="${auto.id}" name="name">ID</span></td>
+        <td><span th:text="${auto.marka}" name="name">Márka</span></td>
+        <td><span th:text="${auto.napiAr}"> Napi ár  </span></td>
+        <td><span th:text="${auto.hanyEves}">Éves</span></td>
+        <td><span th:text="${foglalandoNapok}">Foglalando Napok Száma</span></td>
+    </tr>
+    </tbody>
+</table>
+<form action="#" th:action="@{/customer/rent}" th:object="${vasarloDto}" method="post">
+    <label for="name">E-mail cím:</label>
+    <input type="text" th:field="*{email}" required>
+
+    <label for="hanyEves">Cím:</label>
+    <input type="text" th:field="*{cim}" required>
+
+    <label for="napiAr">Telefonszám:</label>
+    <input type="text" th:field="*{telefonszam}"required>
+
+    <input  class="btn btn-outline-danger my-2 my-sm-0 btn-sm"  type="submit" value="Foglalás"></input>
+</form>
+</body>
+</html>

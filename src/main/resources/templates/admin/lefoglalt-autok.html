@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lefoglalt Autók</title>
+</head>
+<body>
+<button onclick="window.location.href='/admin/adminPage'">Vissza</button>
+<table>
+    <thead>
+    <tr>
+        <th> ID </th>
+        <th> Márka </th>
+        <th> Napi ár </th>
+        <th> Éves </th>
+    </tr>
+    </thead>
+    <tbody>
+    </tr>
+    <tr th:each="auto : ${rentedCar}">
+        <td><span th:text="${auto.id}" name="name">ID</span></td>
+        <td><span th:text="${auto.marka}" name="name">Márka</span></td>
+        <td><span th:text="${auto.napiAr}"> Napi ár  </span></td>
+        <td><span th:text="${auto.hanyEves}">Éves</span></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

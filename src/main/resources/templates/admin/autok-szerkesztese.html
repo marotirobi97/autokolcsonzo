@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button onclick="window.location.href='/admin/list/auto'">Vissza</button><br>
+<form action="#" th:action="@{/admin/save}" th:object="${auto}" method="post">
+    <input type="hidden" th:field="*{id}">
+    <label for="name">Marka:</label>
+    <select th:field="*{marka}">
+        <option th:each="markaOpt : ${T(com.example.autokolcsonzo.enums.Marka).values()}"
+                th:value="${markaOpt}" th:text="${markaOpt.marka}"></option>
+    </select>
+
+    <label for="hanyEves">Hány éves:</label>
+    <input type="text" th:field="*{hanyEves}" id="hanyEves" required>
+
+    <label for="napiAr">Napi ár(FT):</label>
+    <input type="text" th:field="*{napiAr}" id="napiAr" required>
+
+    <label for="name">Aktív-e:</label>
+    <select th:field="*{aktivalt_e}">
+        <option th:each="aktivalt : ${T(com.example.autokolcsonzo.enums.Aktivalt_e).values()}"
+                th:value="${aktivalt}" th:text="${aktivalt}"></option>
+    </select>
+
+    <label for="name">Állapot:</label>
+    <select th:field="*{allapot}">
+        <option th:each="allapot : ${T(com.example.autokolcsonzo.enums.Allapot).values()}"
+                th:value="${allapot}" th:text="${allapot}"></option>
+    </select>
+
+    <button class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="submit">Szerkesztés</button>
+</form>
+
+</body>
+</html>

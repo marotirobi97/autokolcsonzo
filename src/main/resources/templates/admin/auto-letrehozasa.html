@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Autó létrehozása</title>
+    <script>
+    $(document).ready(function(){
+        $('#letrehozas').click(function(){
+            alert("Létrehoztál egy új autót.");
+        });
+    });
+    </script>
+</head>
+<body>
+<button onclick="window.location.href='/admin/adminPage'">Vissza</button><br>
+<form action="#" th:action="@{/admin/create/car}" th:object="${auto}" method="post">
+    <div th:if="${message}">
+        <h2 th:text="${message}"/>
+    </div><br>
+    <label for="name">Marka:</label>
+    <select th:field="*{marka}">
+        <option th:each="markaOpt : ${T(com.example.autokolcsonzo.enums.Marka).values()}"
+                th:value="${markaOpt}" th:text="${markaOpt.marka}"></option>
+    </select>
+
+    <label for="hanyEves">Hány éves:</label>
+    <input type="text" th:field="*{hanyEves}" id="hanyEves" required>
+
+    <label for="napiAr">Napi ár(FT):</label>
+    <input type="text" th:field="*{napiAr}" id="napiAr" required>
+
+    <button class="btn btn-outline-danger my-2 my-sm-0 btn-sm" id="letrehozas" type="submit">Létrehozás</button>
+</form>
+
+</body>
+</html>
