@@ -10,5 +10,7 @@ public class AutoDto {
     private Integer hanyEves;
     private Integer napiAr;
     private Aktivalt_e aktivalt_e = Aktivalt_e.AKTIV;
-    private String image;
+
+
+    private byte[] image;
 }

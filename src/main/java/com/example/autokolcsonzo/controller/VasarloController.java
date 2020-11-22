@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -60,6 +61,9 @@ public class VasarloController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+//        byte[] byteArray=null; //need to initialize it
+//        ImageIcon imageIcon = new ImageIcon(byteArray);
+//        imageIcon.getImage();
 
         redirectAttributes.addFlashAttribute("autoLista",szabadAutok);
 

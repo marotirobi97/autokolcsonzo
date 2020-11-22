@@ -53,13 +53,24 @@ public class TarthelyService implements IsTarhelyService{
 
     @Override
     public void saveImage(MultipartFile imageFile,Integer carId) throws Exception {
-        Auto auto = autoRepository.findAutoById(carId);
+
 
         byte[] byteImage = imageFile.getBytes();
-        Kep kep = new Kep();
-        kep.setKep(byteImage);
-        kep.setAuto(auto);
+        Integer checkIfItsExist = kepRepository.findIfItsContains(carId);
 
-        kepRepository.save(kep);
+        if(checkIfItsExist == 1){
+            Kep kep = kepRepository.findKep(carId);
+            kep.setKep(byteImage);
+
+            kepRepository.save(kep);
+        }else{
+            Auto auto = autoRepository.findAutoById(carId);
+            Kep kep = new Kep();
+            kep.setKep(byteImage);
+            kep.setAuto(auto);
+
+            kepRepository.save(kep);
+        }
     }
+
 }

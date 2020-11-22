@@ -1,16 +1,21 @@
 <!--suppress ALL -->
 <html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Képfeltöltés</title>
+</head>
 <body>
+<button onclick="window.location.href='/admin/list/auto'">Vissza</button><br>
 
-<form method="post" enctype="multipart/form-data" action="/upload/image">
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div>
 
-    <div th:if="${message}">
-        <h2 th:text="${message}"/>
-    </div>
-
+<td><form method="post" enctype="multipart/form-data" action="/upload/image">
     <input type="file" name="imageFile">
     <input type="submit" value="Upload">
-</form>
+</form></td>
+
 
 </body>
 </html>

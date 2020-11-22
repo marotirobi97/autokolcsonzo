@@ -13,7 +13,6 @@
         <th> ID </th>
         <th> Márka </th>
         <th> Napi ár </th>
-        <th> Éves </th>
     </tr>
     </thead>
     <tbody>
@@ -22,7 +21,6 @@
         <td><span th:text="${auto.id}" name="name">ID</span></td>
         <td><span th:text="${auto.marka}" name="name">Márka</span></td>
         <td><span th:text="${auto.napiAr}"> Napi ár  </span></td>
-        <td><span th:text="${auto.hanyEves}">Éves</span></td>
         <td><a th:href="@{/reservation/{carId}(carId=${auto.id})}">Lefoglalas</a></td>
     </tr>
     </tbody>

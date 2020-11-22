@@ -30,6 +30,7 @@
         <td><span th:text="${auto.allapot}">Szabad-e </span></td>
         <td><span th:text="${auto.hanyEves}">Éves</span></td>
         <td><a th:href="@{/admin/edit/car/{carId}(carId=${auto.id})}">Szerkesztés</a></td>
+        <td><a th:href="@{/admin/upload/{carId}(carId=${auto.id})}">Képfeltöltés</a></td>
     </tr>
     </tbody>
 </table>
