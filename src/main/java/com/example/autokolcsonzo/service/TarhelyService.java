@@ -1,10 +1,8 @@
 package com.example.autokolcsonzo.service;
 
 import com.example.autokolcsonzo.entity.Auto;
-import com.example.autokolcsonzo.entity.Kep;
+import com.example.autokolcsonzo.interfaces.TarhelyInterface;
 import com.example.autokolcsonzo.repository.AutoRepository;
-import com.example.autokolcsonzo.repository.KepRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,9 +12,7 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 @Component
-public class TarthelyService implements IsTarhelyService{
-    @Autowired
-    private KepRepository kepRepository;
+public class TarhelyService implements TarhelyInterface {
 
     @Autowired
     private AutoRepository autoRepository;
@@ -54,23 +50,10 @@ public class TarthelyService implements IsTarhelyService{
     @Override
     public void saveImage(MultipartFile imageFile,Integer carId) throws Exception {
 
-
         byte[] byteImage = imageFile.getBytes();
-        Integer checkIfItsExist = kepRepository.findIfItsContains(carId);
 
-        if(checkIfItsExist == 1){
-            Kep kep = kepRepository.findKep(carId);
-            kep.setKep(byteImage);
-
-            kepRepository.save(kep);
-        }else{
-            Auto auto = autoRepository.findAutoById(carId);
-            Kep kep = new Kep();
-            kep.setKep(byteImage);
-            kep.setAuto(auto);
-
-            kepRepository.save(kep);
-        }
+        Auto auto = autoRepository.findAutoById(carId);
+        auto.setKep(byteImage);
+        autoRepository.save(auto);
     }
-
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -19,10 +20,12 @@ public class IndexController {
     public String indexInit(){
         return "redirect:/index";
     }
+
     @GetMapping("/index")
-    public String index(Model model, @ModelAttribute("autoLista") ArrayList<Auto> autoLista){
+    public String index(Model model, @ModelAttribute("autoLista") ArrayList<Auto> autoLista, @ModelAttribute("kepekLista")ArrayList<Image> kepek){
         model.addAttribute("foglalasDto", new FoglalasDto());
         model.addAttribute("maiDatum", LocalDate.now());
+
         return "index";
     }
 

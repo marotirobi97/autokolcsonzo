@@ -20,6 +20,7 @@ public class AutoController {
     @GetMapping("/create")
     public String autoLetrehozasaGomb(Model model){
         model.addAttribute("auto", new Auto());
+
         return "admin/auto-letrehozasa";
     }
 
@@ -27,6 +28,7 @@ public class AutoController {
     public String autoLetrehozasa(@ModelAttribute("auto") Auto auto, RedirectAttributes redirectAttributes){
         autoRepository.save(auto);
         redirectAttributes.addFlashAttribute("message","Sikeresen létrehoztál egy új autót!");
+
         return "redirect:/admin/create";
     }
 
@@ -34,6 +36,7 @@ public class AutoController {
     public String autokListázása(Model model){
         List<Auto> autoLista = autoRepository.findAll();
         model.addAttribute("autoLista",autoLista);
+
         return "admin/autok-listazasa";
     }
 
@@ -41,12 +44,14 @@ public class AutoController {
     public String autoSzerkesztes(@PathVariable("carId") Integer carId, Model model){
         Auto selectedCar = autoRepository.findAutoById(carId);
         model.addAttribute("auto", selectedCar);
+
         return "admin/autok-szerkesztese";
     }
 
     @PostMapping("/save")
     public String save(@ModelAttribute("auto") Auto auto){
         autoRepository.save(auto);
+
         return "redirect:/admin/list/auto";
     }
 
@@ -54,7 +59,7 @@ public class AutoController {
     public String lefoglaltAutokLista(Model model){
         List<Auto> lefoglaltAutok = autoRepository.findAllRentedCar();
         model.addAttribute("rentedCar", lefoglaltAutok);
+
         return "admin/lefoglalt-autok";
     }
-
 }

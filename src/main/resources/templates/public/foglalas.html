@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Foglalas</title>
+    <script>
+         function lefoglalt() {
+           alert("Sikeres foglalás!");
+        }
+    </script>
 </head>
 <body>
 <table>
@@ -37,7 +42,7 @@
     <label for="napiAr">Telefonszám:</label>
     <input type="text" th:field="*{telefonszam}"required>
 
-    <input  class="btn btn-outline-danger my-2 my-sm-0 btn-sm"  type="submit" value="Foglalás"></input>
+    <input  class="btn btn-outline-danger my-2 my-sm-0 btn-sm"  onclick="lefoglalt()" type="submit" value="Foglalás"></input>
 </form>
 </body>
 </html>

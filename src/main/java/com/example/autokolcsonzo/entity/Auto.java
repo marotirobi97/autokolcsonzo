@@ -30,4 +30,7 @@ public class Auto {
 
     @Column(name = "allapot")
     private String allapot = Allapot.SZABAD.toString();
+
+    @Column(name = "kep")
+    private byte[] kep;
 }

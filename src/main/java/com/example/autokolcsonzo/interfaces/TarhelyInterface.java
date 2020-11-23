@@ -1,4 +1,4 @@
-package com.example.autokolcsonzo.service;
+package com.example.autokolcsonzo.interfaces;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 @Service
-public interface IsTarhelyService {
+public interface TarhelyInterface {
 
     void init();
 

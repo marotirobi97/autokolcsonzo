@@ -1,24 +1,21 @@
 package com.example.autokolcsonzo.controller;
 
 import com.example.autokolcsonzo.dto.FoglalasDto;
+import com.example.autokolcsonzo.dto.SzabadAutoDto;
 import com.example.autokolcsonzo.dto.VasarloDto;
 import com.example.autokolcsonzo.entity.Auto;
-import com.example.autokolcsonzo.entity.Foglalas;
-import com.example.autokolcsonzo.entity.Vasarlo;
 import com.example.autokolcsonzo.enums.Allapot;
 import com.example.autokolcsonzo.repository.AutoRepository;
 import com.example.autokolcsonzo.repository.FoglalasRepository;
 import com.example.autokolcsonzo.repository.VasarloRepository;
+import com.example.autokolcsonzo.service.VasarloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.swing.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -26,54 +23,47 @@ import java.util.List;
 @SessionAttributes("foglalasDto")
 public class VasarloController {
 
+    @SuppressWarnings("unused")
     @ModelAttribute
     public FoglalasDto foglalasDto(){
         return new FoglalasDto();
     }
 
+    @SuppressWarnings("unused")
     @Autowired
     private AutoRepository autoRepository;
 
+    @SuppressWarnings("unused")
+    @Autowired
+    private VasarloService vasarloService;
+
+    @SuppressWarnings("unused")
     @Autowired
     private VasarloRepository vasarloRepository;
 
+    @SuppressWarnings("unused")
     @Autowired
     private FoglalasRepository foglalasRepository;
 
     @PostMapping("/list/free/car")
-    public String szabadKocsikListazasa(@ModelAttribute FoglalasDto foglalasDto, Model model, RedirectAttributes redirectAttributes){
-        List<Auto> szabadAutok = autoRepository.findAllFreeCar();
+    public String szabadKocsikListazasa(@ModelAttribute FoglalasDto foglalasDto, Model model, RedirectAttributes redirectAttributes) throws IOException {
 
-        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String kezdo = foglalasDto.getKezdoDatum();
-        String zaro = foglalasDto.getZaroDatum();
-        try{
-            Date dateBefore = myFormat.parse(kezdo);
-            Date dateAfter = myFormat.parse(zaro);
-            Date todayDay = myFormat.parse(LocalDate.now().toString());
-            if(dateBefore.before(todayDay) || dateAfter.before(todayDay) || dateAfter.before(dateBefore)){
-                redirectAttributes.addFlashAttribute("message","Nem jó dátumokat adtál meg!");
-                return "redirect:/index";
-            }
-            long kulonbseg = dateAfter.getTime() - dateBefore.getTime();
-            int daysBetween = (int)(kulonbseg / (1000*60*60*24));
-            foglalasDto.setFoglalandoNapok(daysBetween);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        byte[] byteArray=null; //need to initialize it
-//        ImageIcon imageIcon = new ImageIcon(byteArray);
-//        imageIcon.getImage();
+        String datumKezelo = vasarloService.datumKezelo(foglalasDto, redirectAttributes);
+        if (datumKezelo != null) return datumKezelo;
 
-        redirectAttributes.addFlashAttribute("autoLista",szabadAutok);
+        List<SzabadAutoDto> szabadAutoDto = vasarloService.getSzabadAutokKepekkel();
+
+        redirectAttributes.addFlashAttribute("autoLista",szabadAutoDto);
 
         return "redirect:/index";
     }
 
     @GetMapping("/reservation/{carId}")
     public String foglalasOldal(@PathVariable("carId") Integer carId,Model model,@ModelAttribute FoglalasDto foglalasDto){
+
         Auto lefoglaltAuto = autoRepository.findAutoById(carId);
         foglalasDto.setAutoId(carId);
+
         model.addAttribute("auto",lefoglaltAuto);
         model.addAttribute("foglalandoNapok",foglalasDto.getFoglalandoNapok());
         model.addAttribute("vasarloDto",new VasarloDto());
@@ -82,15 +72,17 @@ public class VasarloController {
     }
 
     @PostMapping("/customer/rent")
-    public String vasarloFoglal(Model model, @ModelAttribute("vasarloDto") VasarloDto vasarloDto,@ModelAttribute FoglalasDto foglalasDto){
+    public String vasarloFoglal(Model model, @ModelAttribute("vasarloDto") VasarloDto vasarloDto,@ModelAttribute FoglalasDto foglalasDto,RedirectAttributes redirectAttributes){
+
         Auto lefoglaltAuto = autoRepository.findAutoById(foglalasDto.getAutoId());
+
+        if(lefoglaltAuto.getAllapot().equals("FOGLALT")){
+            return "uzenetKezelo/marLefoglaltAuto";
+        }
+
         lefoglaltAuto.setAllapot(Allapot.FOGLALT.toString());
 
-        Vasarlo vasarlo = Vasarlo.builder().email(vasarloDto.getEmail()).cim(vasarloDto.getCim()).foglalandoNapokSzama(foglalasDto.getFoglalandoNapok()).telefonSzam(vasarloDto.getTelefonszam()).build();
-        vasarloRepository.save(vasarlo);
-
-        Foglalas foglalas = Foglalas.builder().auto(lefoglaltAuto).vasarlo(vasarlo).foglalandoNapokSzama(foglalasDto.getFoglalandoNapok()).foglalasOsszege(foglalasDto.getFoglalandoNapok() * lefoglaltAuto.getNapiAr()).build();
-        foglalasRepository.save(foglalas);
+        vasarloService.foglalasKezelo(vasarloDto, foglalasDto, lefoglaltAuto);
 
         return "redirect:/index";
     }

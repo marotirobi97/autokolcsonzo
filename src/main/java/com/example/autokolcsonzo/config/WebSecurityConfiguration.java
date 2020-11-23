@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -17,6 +17,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .password("admin")
                 .roles("ADMIN");
     }
+
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -27,6 +29,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/*").hasRole("ADMIN")
                 .and().formLogin().defaultSuccessUrl("/admin/adminPage")
                 .and().logout().logoutSuccessUrl("/index").deleteCookies("JSESSIONID");
+
+        http.authorizeRequests()
+                .antMatchers("/static/**")
+                .permitAll();
     }
 
     @Bean

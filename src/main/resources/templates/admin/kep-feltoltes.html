@@ -11,7 +11,11 @@
     <h2 th:text="${message}"/>
 </div>
 
-<td><form method="post" enctype="multipart/form-data" action="/upload/image">
+<div th:if="${noImageUploaded}">
+    <h2 th:text="${noImageUploaded}"/>
+</div>
+
+<td><form method="post" enctype="multipart/form-data" action="/admin/upload/image">
     <input type="file" name="imageFile">
     <input type="submit" value="Upload">
 </form></td>
