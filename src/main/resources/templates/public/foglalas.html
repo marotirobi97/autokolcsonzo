@@ -9,16 +9,55 @@
            alert("Sikeres foglalás!");
         }
     </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>
+        body{
+            background-image: url("/static/img/auto10.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .table{
+            width:40% !important;
+        }
+        *{
+            text-align:center !important!;
+        }
+        th{
+            text-align:center !important!;
+        }
+        tbody{
+            backgound-color:white;
+        }
+
+        form,table{
+            margin: 20px 20px;
+        }
+    </style>
 </head>
 <body>
-<table>
+<button onclick="window.location.href='/index'" class="btn btn-primary">Vissza a főoldalra</button><br>
+<form action="#" th:action="@{/customer/rent}" th:object="${vasarloDto}" method="post">
+    <label for="name">E-mail cím:</label>
+    <input type="text" th:field="*{email}" required>
+
+    <label for="hanyEves">Cím:</label>
+    <input type="text" th:field="*{cim}" required>
+
+    <label for="napiAr">Telefonszám:</label>
+    <input type="text" th:field="*{telefonszam}"required>
+
+    <input  class="btn btn-primary" onclick="lefoglalt()" type="submit" >Foglalás</input>
+</form>
+
+
+<table class="table table-striped table-dark">
     <thead>
     <tr>
-        <th> ID </th>
-        <th> Márka </th>
-        <th> Napi ár </th>
-        <th> Éves </th>
-        <th> Foglalando Napok Száma </th>
+        <th scope="col"> ID </th>
+        <th scope="col"> Márka </th>
+        <th scope="col"> Napi ár </th>
+        <th scope="col"> Éves </th>
+        <th scope="col"> Foglalando Napok Száma </th>
     </tr>
     </thead>
     <tbody>
@@ -32,17 +71,5 @@
     </tr>
     </tbody>
 </table>
-<form action="#" th:action="@{/customer/rent}" th:object="${vasarloDto}" method="post">
-    <label for="name">E-mail cím:</label>
-    <input type="text" th:field="*{email}" required>
-
-    <label for="hanyEves">Cím:</label>
-    <input type="text" th:field="*{cim}" required>
-
-    <label for="napiAr">Telefonszám:</label>
-    <input type="text" th:field="*{telefonszam}"required>
-
-    <input  class="btn btn-outline-danger my-2 my-sm-0 btn-sm"  onclick="lefoglalt()" type="submit" value="Foglalás"></input>
-</form>
 </body>
 </html>

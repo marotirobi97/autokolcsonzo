@@ -6,20 +6,129 @@
     <title>Main Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
+    #szabadAutok, #datumDiv{
+        margin:20px 15px 20px 50px;
+
+    }
         .table{
-            width:30% !important;
+            width:40% !important;
+        }
+        *{
+            text-align:center !important!;
+        }
+        th{
+            text-align:center !important!;
+        }
+        tbody{
+            backgound-color:white;
+        }
+
+        .date {
+            height: 35px;
+<!--            margin: 0 auto;-->
+            width: 8%;
+            font-family: arial, sans-serif;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: lightgrey;
+            outline: none;
+            border: 0;
+            border-radius: 3px;
+            padding: 0 3px;
+            margin-left:60px;
+<!--            margin-bottom:8px;-->
+          }
+
+          #button{
+            margin-left:60px;
+          }
+         body{
+              background-image: url("static/img/auto9.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+         }
+
+          .header {
+            overflow: hidden;
+            background-color: black;
+            opacity:0.7;
+            padding: 20px 10px;
+            }
+
+            .header a {
+              float: left;
+              color: black;
+              text-align: center;
+<!--              padding: 12px;-->
+              text-decoration: none;
+              font-size: 18px;
+              line-height: 25px;
+              border-radius: 4px;
+            }
+
+            .header a.logo {
+              font-size: 25px;
+              font-weight: bold;
+              color:white;
+            }
+
+            .header a.active {
+              background-color: dodgerblue;
+              color: white;
+            }
+
+            .header-right {
+              float: right;
+            }
+
+            @media screen and (max-width: 500px) {
+              .header a {
+                float: none;
+                display: block;
+                text-align: left;
+              }
+
+              .header-right {
+                float: none;
+              }
+            }
+
+        p{
+            margin-left:60px !important;
+            margin: 10px 10px 10px 10px;
+        }
+        #datumDiv{
+            margin-top:40px;
+            margin-right: 60%;
+            border-style:outset;
+<!--            background-image:url("static/img/clock.jpg");-->
+            background-color:black;
+            background-size:contain,cover;
+            box-shadow: 5px 10px black;
         }
     </style>
 </head>
 <body>
-<form class="form-inline my-2 my-lg-0" form-method="post" th:action="@{/login}">
-    <button class="btn btn-outline-danger my-2 my-sm-0 btn-sm" type="submit">Admin</button>
-</form>
-<div th:replace="public/datum-lekerdezes :: form "> </div><br><br>
+
+<div class="header">
+    <a href="/index" style="margin-left:30px !important;" class="logo">Autókölcsönző Kft.</a>
+    <div class="header-right">
+        <a><form form-method="post" id="admin" th:action="@{/login}">
+            <button class="btn btn-primary" type="submit">Admin</button>
+        </form></a>
+    </div>
+</div>
+<div id="datumDiv">
+    <div th:replace="public/datum-lekerdezes :: form "> </div><br><br>
+</div>
+
 <div th:if="${message}">
     <h2 th:text="${message}"/>
 </div><br>
-<div th:replace="public/szabadAutok-lista :: table "> </div>
+<div id="szabadAutok">
+    <div th:replace="public/szabadAutok-lista :: table "> </div>
+</div>
 
 
 </body>
