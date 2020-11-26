@@ -33,12 +33,12 @@
 </head>
 <body>
 <button onclick="window.location.href='/admin/adminPage'" id="vissza" class="btn btn-primary">Vissza</button><br>
-
+<br>
+<div th:if="${message}">
+    <h2 th:text="${message}"/>
+</div><br>
 <div id="div">
     <form action="#" th:action="@{/admin/create/car}" th:object="${auto}" method="post">
-        <div th:if="${message}">
-            <h2 th:text="${message}"/>
-        </div><br>
         <label for="name">Marka:</label>
         <select class="custom-select" th:field="*{marka}">
             <option th:each="markaOpt : ${T(com.example.autokolcsonzo.enums.Marka).values()}"

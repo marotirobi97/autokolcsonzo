@@ -14,35 +14,41 @@
             color:white;
         }
         #vissza{
-            margin: 10px 10px;
+            margin: 25px 30px;
+       }
+       form{
+        margin:25px 30px;
+       }
+       div{
+        margin-top:25px;
+       }
+       div{
+        margin-right:1600px;
        }
     </style>
 </head>
 <body>
 <button onclick="window.location.href='/admin/list/auto'" class="btn btn-primary" id="vissza">Vissza</button><br>
 <form action="#" th:action="@{/admin/save}" th:object="${auto}" method="post">
+    <input type="hidden" th:field="*{id}">
     <div class="form-group">
-        <input type="hidden" th:field="*{id}">
-        <label for="name">Marka:</label>
-        <select th:field="*{marka}">
-            <option th:each="markaOpt : ${T(com.example.autokolcsonzo.enums.Marka).values()}"
-                    th:value="${markaOpt}" th:text="${markaOpt.marka}"></option>
-        </select>
+        <label for="marka">Márka:</label>
+        <input type="text" th:field="*{marka}" id="marka" class="form-control" readonly>
     </div>
 
     <div class="form-group">
         <label for="hanyEves">Hány éves:</label>
-        <input type="text" th:field="*{hanyEves}" id="hanyEves" required>
+        <input type="text" th:field="*{hanyEves}" id="hanyEves" class="form-control" required>
     </div>
 
     <div class="form-group">
-        <label for="napiAr">Napi ár(FT):</label>
-        <input type="text" th:field="*{napiAr}" id="napiAr" required>
+        <label for="napiAr" >Napi ár(FT):</label>
+        <input type="text" th:field="*{napiAr}" id="napiAr" class="form-control" required>
     </div>
 
     <div class="form-group">
         <label for="name">Aktív-e:</label>
-        <select th:field="*{aktivalt_e}">
+        <select th:field="*{aktivalt_e}" class="custom-select">
             <option th:each="aktivalt : ${T(com.example.autokolcsonzo.enums.Aktivalt_e).values()}"
                     th:value="${aktivalt}" th:text="${aktivalt}"></option>
         </select>
@@ -50,11 +56,11 @@
 
     <div class="form-group">
         <label for="name">Állapot:</label>
-        <select th:field="*{allapot}">
+        <select th:field="*{allapot}" class="custom-select">
             <option th:each="allapot : ${T(com.example.autokolcsonzo.enums.Allapot).values()}"
                     th:value="${allapot}" th:text="${allapot}"></option>
         </select>
-    </div>
+    </div><br>
 
     <button  type="submit" class="btn btn-info">Szerkesztés</button>
 </form>
