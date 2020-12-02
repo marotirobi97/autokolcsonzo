@@ -2,13 +2,16 @@ package com.example.autokolcsonzo.entity;
 
 import com.example.autokolcsonzo.enums.Aktivalt_e;
 import com.example.autokolcsonzo.enums.Allapot;
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "auto")
 public class Auto {
     @Id

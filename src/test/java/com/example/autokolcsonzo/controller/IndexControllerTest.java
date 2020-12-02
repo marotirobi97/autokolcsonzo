@@ -1,31 +1,45 @@
 package com.example.autokolcsonzo.controller;
 
+import org.junit.Before;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.ui.Model;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import java.util.Map;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
 class IndexControllerTest {
+
+    private static final String BASE_URL = "/";
 
     @Autowired
     private IndexController indexController;
 
-//    @Test
-//    void testMockMVC() throws Exception{
-//        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-//                .andExpect(status().isOk())
-//                .andReturn().getModelAndView().getModel();
-//    }
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Before
+    public void init() {
+        InternalResourceViewResolver templateResolver = new InternalResourceViewResolver();
+        templateResolver.setPrefix("/templates");
+        templateResolver.setSuffix(".html");
+
+        this.mockMvc = MockMvcBuilders.standaloneSetup(indexController).setViewResolvers(templateResolver).build();
+    }
+
+    @Test
+    void testMockMVC() throws Exception{
+        mockMvc.perform(MockMvcRequestBuilders.get(BASE_URL))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/index"));
+    }
 }
