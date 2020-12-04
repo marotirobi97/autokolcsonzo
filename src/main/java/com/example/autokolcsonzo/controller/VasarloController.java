@@ -46,10 +46,14 @@ public class VasarloController {
     private FoglalasRepository foglalasRepository;
 
     @PostMapping("/list/free/car")
-    public String szabadKocsikListazasa(@ModelAttribute FoglalasDto foglalasDto, Model model, RedirectAttributes redirectAttributes) throws IOException {
+    public String szabadKocsikListazasa(@ModelAttribute FoglalasDto foglalasDto, Model model, RedirectAttributes redirectAttributes) {
 
-        String datumKezelo = vasarloService.datumKezelo(foglalasDto, redirectAttributes);
-        if (datumKezelo != null) return datumKezelo;
+        try {
+            vasarloService.datumKezelo(foglalasDto);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message","Nem jó dátumokat adtál meg!");
+            return "redirect:/index";
+        }
 
         List<SzabadAutoDto> szabadAutoDto = vasarloService.getSzabadAutokKepekkel();
 

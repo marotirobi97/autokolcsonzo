@@ -55,7 +55,6 @@ public class AutoControllerTest {
         templateResolver.setPrefix("/templates");
         templateResolver.setSuffix(".html");
 
-
         this.mockMvc = MockMvcBuilders.standaloneSetup(autoController).setViewResolvers(templateResolver).build();
     }
 
@@ -82,11 +81,11 @@ public class AutoControllerTest {
     public void endPointCheckerCreateCar() throws Exception {
 
         MvcResult result = this.mockMvc
-                .perform(get("/admin/create/car")
+                .perform(post("/admin/create/car")
                         .requestAttr("auto", any(Auto.class)))
                 .andReturn();
 
-        mockMvc.perform(post("/admin/create/car"))      // redirect
+        mockMvc.perform(post("/admin/create/car"))      //redirect
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/create"));
     }
@@ -102,7 +101,7 @@ public class AutoControllerTest {
                 .andReturn();
 
         Mockito.when(autoRepository.save(ArgumentMatchers.any())).thenReturn(new Auto());
-        when(autoRepository.save(ArgumentMatchers.any(Auto.class))).thenReturn(new Auto());
+//        when(autoRepository.save(ArgumentMatchers.any(Auto.class))).thenReturn(new Auto());
     }
 
     @Test
@@ -133,6 +132,21 @@ public class AutoControllerTest {
     }
 
     @Test
+    public void endPointCheckerEditCar() throws Exception {
+
+        Integer carId = 7;
+
+        Auto auto = new Auto(carId,"AUDI",22,2200,Aktivalt_e.AKTIV.toString(),Allapot.SZABAD.toString(),null);
+
+        when(autoRepository.findAutoById(carId)).thenReturn(auto);
+
+        mockMvc.perform(get("/admin/edit/car/" + carId)
+                    .requestAttr("carId",any(Integer.class)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("admin/autok-szerkesztese"));
+    }
+
+    @Test
     public void editCar() throws Exception {
         Integer carId = 2;
 
@@ -150,7 +164,61 @@ public class AutoControllerTest {
     }
 
     @Test
+    public void endPointCheckerSave() throws Exception {
+
+        MvcResult result = this.mockMvc
+                .perform(get("/admin/save")
+                        .requestAttr("auto", any(Auto.class)))
+                .andReturn();
+
+        mockMvc.perform(post("/admin/save"))      // redirect
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/list/auto"));
+    }
+
+    @Test
     public void save() throws Exception {
-        
+
+        Auto auto = new Auto(2,"AUDI",22,2200,Aktivalt_e.AKTIV.toString(),Allapot.SZABAD.toString(),null);
+
+        MvcResult result = this.mockMvc
+                .perform(post("/admin/save")
+                        .flashAttr("auto", auto))
+                .andReturn();
+
+//        Mockito.when(autoRepository.save(ArgumentMatchers.any())).thenReturn(new Auto());
+        when(autoRepository.save(ArgumentMatchers.any(Auto.class))).thenReturn(new Auto());
+    }
+
+    @Test
+    public void endPointCheckerListRented() throws Exception {
+
+        Auto auto = new Auto(7,"AUDI",22,2200,Aktivalt_e.AKTIV.toString(),Allapot.FOGLALT.toString(),null);
+        List<Auto> autoList = new ArrayList<>();
+        autoList.add(auto);
+
+        when(autoRepository.findAllRentedCar()).thenReturn(autoList);
+
+        mockMvc.perform(get("/admin/list/rent"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("admin/lefoglalt-autok"));
+    }
+
+    @Test
+    public void listRented() throws Exception {
+
+        Auto auto = new Auto(2,"AUDI",22,2200,Aktivalt_e.AKTIV.toString(),Allapot.FOGLALT.toString(),null);
+
+        List<Auto> autoLista = new ArrayList<>();
+        autoLista.add(auto);
+        when(autoRepository.findAllRentedCar()).thenReturn(autoLista);
+
+        MvcResult result = mockMvc
+                .perform(get("/admin/list/rent"))
+                .andReturn();
+
+        ModelAndView modelAndView = result.getModelAndView();
+        List<Auto> autoList = (List<Auto>) modelAndView.getModel().get("rentedCar");
+        assertThat(autoList).isNotEmpty();
     }
 }

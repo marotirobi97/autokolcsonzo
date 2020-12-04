@@ -59,31 +59,28 @@ public class VasarloService {
         return szabadAutoDto;
     }
 
-    public String datumKezelo(FoglalasDto foglalasDto, RedirectAttributes redirectAttributes) {
+    public void datumKezelo(FoglalasDto foglalasDto) throws Exception {
 
         SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
         String kezdo = foglalasDto.getKezdoDatum();
+        if(kezdo == null) throw new Exception("Kezdő dátum nincs megadva.");
+
         String zaro = foglalasDto.getZaroDatum();
+        if(zaro == null) throw new Exception("Záró dátum nincs megadva.");
 
-        try{
-            Date dateBefore = myFormat.parse(kezdo);
-            Date dateAfter = myFormat.parse(zaro);
-            Date todayDay = myFormat.parse(LocalDate.now().toString());
+        Date dateBefore = myFormat.parse(kezdo);
+        Date dateAfter = myFormat.parse(zaro);
+        Date todayDay = myFormat.parse(LocalDate.now().toString());
 
-            if(dateBefore.before(todayDay) || dateAfter.before(todayDay) || dateAfter.before(dateBefore)){
-                redirectAttributes.addFlashAttribute("message","Nem jó dátumokat adtál meg!");
-                return "redirect:/index";
-            }
-
-            long kulonbseg = dateAfter.getTime() - dateBefore.getTime();
-            int daysBetween = (int)(kulonbseg / (1000*60*60*24));
-
-            foglalasDto.setFoglalandoNapok(daysBetween);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if(dateBefore.before(todayDay) || dateAfter.before(todayDay) || dateAfter.before(dateBefore)){
+            throw new Exception("Nem jó dátum!");
         }
 
-        return null;
+        long kulonbseg = dateAfter.getTime() - dateBefore.getTime();
+        int daysBetween = (int)(kulonbseg / (1000*60*60*24));
+
+        foglalasDto.setFoglalandoNapok(daysBetween);
+
     }
 
     public void foglalasKezelo(VasarloDto vasarloDto, FoglalasDto foglalasDto, Auto lefoglaltAuto) {
