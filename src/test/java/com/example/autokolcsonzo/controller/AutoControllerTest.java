@@ -95,13 +95,16 @@ public class AutoControllerTest {
 
         Auto auto = new Auto(2,"AUDI",22,2200,Aktivalt_e.AKTIV.toString(),Allapot.SZABAD.toString(),null);
 
+        Mockito.when(autoRepository.save(ArgumentMatchers.any())).thenReturn(new Auto());
+
         MvcResult result = this.mockMvc
                 .perform(post("/admin/create/car")
                         .flashAttr("auto", auto))
                 .andReturn();
 
-        Mockito.when(autoRepository.save(ArgumentMatchers.any())).thenReturn(new Auto());
-//        when(autoRepository.save(ArgumentMatchers.any(Auto.class))).thenReturn(new Auto());
+        String message = (String)result.getFlashMap().get("message");
+        assertThat(message).isNotNull();
+
     }
 
     @Test
@@ -181,13 +184,14 @@ public class AutoControllerTest {
 
         Auto auto = new Auto(2,"AUDI",22,2200,Aktivalt_e.AKTIV.toString(),Allapot.SZABAD.toString(),null);
 
+        when(autoRepository.save(ArgumentMatchers.any(Auto.class))).thenReturn(new Auto());
+
         MvcResult result = this.mockMvc
                 .perform(post("/admin/save")
                         .flashAttr("auto", auto))
+                .andExpect(status().isOk())
+                .andExpect(view().name("/admin/list/auto"))
                 .andReturn();
-
-//        Mockito.when(autoRepository.save(ArgumentMatchers.any())).thenReturn(new Auto());
-        when(autoRepository.save(ArgumentMatchers.any(Auto.class))).thenReturn(new Auto());
     }
 
     @Test

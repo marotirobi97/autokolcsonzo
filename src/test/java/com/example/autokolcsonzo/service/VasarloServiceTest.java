@@ -2,6 +2,7 @@ package com.example.autokolcsonzo.service;
 
 import com.example.autokolcsonzo.dto.FoglalasDto;
 import com.example.autokolcsonzo.dto.SzabadAutoDto;
+import com.example.autokolcsonzo.dto.VasarloDto;
 import com.example.autokolcsonzo.entity.Auto;
 import com.example.autokolcsonzo.enums.Aktivalt_e;
 import com.example.autokolcsonzo.enums.Allapot;
@@ -58,6 +59,34 @@ public class VasarloServiceTest {
 
         List<SzabadAutoDto> szabadAutoLista = vasarloService.getSzabadAutokKepekkel();
         assertThat(szabadAutoLista).isNotEmpty();
-
     }
+
+    @Test
+    public void foglalasKezelo() throws Exception {
+
+        VasarloDto vasarloDto = new VasarloDto();
+        vasarloDto.builder().email("valamilyenemailcim@citromail.hu").cim("Rakott krumpli utca 22").telefonszam("0634234256").build();
+
+        FoglalasDto foglalasDto = new FoglalasDto();
+        foglalasDto.setFoglalandoNapok(5);
+
+        Auto auto = new Auto(2,"AUDI",22,2200, Aktivalt_e.AKTIV.toString(), Allapot.SZABAD.toString(),null);
+
+        vasarloService.foglalasKezelo(vasarloDto,foglalasDto,auto);
+    }
+
+//    @Test
+//    public void isAutoFoglalt() throws Exception {
+//
+//        VasarloDto vasarloDto = new VasarloDto();
+//        vasarloDto.builder().email("valamilyenemailcim@citromail.hu").cim("Rakott krumpli utca 22").telefonszam("0634234256").build();
+//
+//        FoglalasDto foglalasDto = new FoglalasDto();
+//        foglalasDto.setFoglalandoNapok(5);
+//
+//        Auto auto = new Auto(2,"AUDI",22,2200, Aktivalt_e.AKTIV.toString(), Allapot.FOGLALT.toString(),null);
+//
+//
+//
+//    }
 }
