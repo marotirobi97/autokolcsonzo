@@ -3,6 +3,7 @@ package com.example.autokolcsonzo.controller;
 import com.example.autokolcsonzo.entity.Auto;
 import com.example.autokolcsonzo.repository.AutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

@@ -189,8 +189,8 @@ public class AutoControllerTest {
         MvcResult result = this.mockMvc
                 .perform(post("/admin/save")
                         .flashAttr("auto", auto))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/admin/list/auto"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/list/auto"))
                 .andReturn();
     }
 
