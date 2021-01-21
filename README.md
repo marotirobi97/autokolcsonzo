@@ -1,4 +1,4 @@
-// A kapott feladat leírás - Junior szintű feladat
+// A gyakorlatom alatt kapott feladatnak a leírása - Junior szintű feladat
 
 Megvalósítandó feladat leírása
 Autókölcsönző alkalmazás
